@@ -139,6 +139,8 @@ function openVideo(index) {
     fsMessage.innerText = messages[index % messages.length];
 
     fsVideo.src = videos[index];
+    fsVideo.muted = false;
+    fsVideo.volume = 1;
     fsVideo.style.opacity = "0";
     fsVideo.classList.remove("playing");
     fsVideo.currentTime = 0;
