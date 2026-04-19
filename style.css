@@ -17,6 +17,7 @@ body {
     min-height: 100dvh;
     min-height: 100svh;
     overscroll-behavior: none;
+    -webkit-text-size-adjust: 100%;
 }
 
 .page-glow {
@@ -58,7 +59,7 @@ body {
     width: min(100% - 32px, 880px);
     margin: 0 auto;
     padding: clamp(28px, 4vh, 56px) clamp(22px, 4vw, 44px) clamp(24px, 4vh, 52px);
-    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -370,7 +371,7 @@ body.journey-open .intro-overlay {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 68px 0 28px;
+    padding: 54px 0 28px;
     overflow: hidden;
 }
 
@@ -432,7 +433,7 @@ body.journey-open .intro-overlay {
 .stage-shell {
     position: relative;
     width: min(100%, 980px);
-    padding: 62px 0 0;
+    padding: 58px 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -521,6 +522,7 @@ body.journey-open .intro-overlay {
     overflow: hidden;
     border: 1px solid rgba(255, 235, 223, 0.12);
     transform-origin: center bottom;
+    scroll-snap-stop: always;
 }
 
 .card::before {
@@ -661,7 +663,7 @@ body.journey-open .intro-overlay {
 }
 
 .actions button {
-    padding: 14px 28px;
+    padding: 14px clamp(20px, 4vw, 28px);
     border-radius: 999px;
     border: 1px solid rgba(255, 230, 214, 0.18);
     cursor: pointer;
@@ -694,7 +696,7 @@ body.journey-open .intro-overlay {
 }
 
 .fullscreen video {
-    max-height: 80vh;
+    max-height: min(80svh, 80dvh);
     width: auto;
     max-width: 90vw;
     border-radius: 20px;
@@ -743,7 +745,7 @@ body.journey-open .intro-overlay {
 .final-shell {
     position: relative;
     width: min(100%, 900px);
-    max-height: calc(100vh - 40px);
+    max-height: calc(100dvh - 40px);
     padding: 30px 24px 26px;
     border-radius: 34px;
     background:
@@ -752,7 +754,9 @@ body.journey-open .intro-overlay {
     border: 1px solid rgba(255, 232, 216, 0.12);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.32);
     text-align: center;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .final-close {
@@ -798,7 +802,7 @@ body.journey-open .intro-overlay {
     max-width: 720px;
     margin-top: 18px;
     border-radius: 24px;
-    max-height: min(34vh, 320px);
+    max-height: min(34vh, 34dvh, 320px);
     object-fit: contain;
     background: #050404;
     box-shadow: 0 22px 40px rgba(0, 0, 0, 0.34);
@@ -864,8 +868,8 @@ body.journey-open .intro-overlay {
     }
 
     .cards-container {
-        gap: 20px;
-        width: min(100%, 580px);
+        gap: 22px;
+        width: min(100%, 600px);
         padding-left: calc(50vw - 90px);
         padding-right: calc(50vw - 90px);
     }
@@ -888,7 +892,7 @@ body.journey-open .intro-overlay {
     }
 
     .landing {
-        max-height: calc(100vh - 20px);
+        max-height: calc(100dvh - 20px);
         padding-top: 28px;
         padding-bottom: 26px;
     }
@@ -919,6 +923,13 @@ body.journey-open .intro-overlay {
         gap: 10px;
     }
 
+    .journey-button {
+        width: min(100%, 320px);
+        padding: 14px 22px;
+        font-size: 0.8rem;
+        letter-spacing: 0.11em;
+    }
+
     .pull-cord {
         height: 88px;
     }
@@ -929,9 +940,11 @@ body.journey-open .intro-overlay {
 
     .cards-container {
         gap: 16px;
-        width: min(100%, 452px);
-        padding-left: calc(50vw - 70px);
-        padding-right: calc(50vw - 70px);
+        width: min(100%, 460px);
+        margin-bottom: 8px;
+        padding: 16px 12px;
+        padding-left: calc(50vw - 74px);
+        padding-right: calc(50vw - 74px);
         padding-top: 16px;
         padding-bottom: 16px;
     }
@@ -943,16 +956,19 @@ body.journey-open .intro-overlay {
     }
 
     .journey-section {
-        padding-top: 52px;
-        padding-bottom: 22px;
+        padding-top: 34px;
+        padding-bottom: 18px;
     }
 
     .stage-shell {
-        padding-top: 56px;
+        width: min(100%, 100vw);
+        padding-top: 46px;
     }
 
     .stage-header {
-        width: min(92vw, 420px);
+        width: min(92vw, 390px);
+        top: -2px;
+        padding: 8px 14px 5px;
     }
 
     .stage-kicker {
@@ -966,21 +982,26 @@ body.journey-open .intro-overlay {
     }
 
     .completion {
-        bottom: calc(118px + env(safe-area-inset-bottom, 0px));
-        padding: 14px 16px;
+        bottom: calc(106px + env(safe-area-inset-bottom, 0px));
+        width: min(100% - 20px, 440px);
+        padding: 12px 14px;
+        font-size: 0.92rem;
+        line-height: 1.55;
     }
 
     .actions {
-        bottom: calc(38px + env(safe-area-inset-bottom, 0px));
+        bottom: calc(26px + env(safe-area-inset-bottom, 0px));
     }
 
     .final {
-        padding: 12px;
+        padding: 10px;
     }
 
     .final-shell {
-        max-height: calc(100vh - 24px);
-        padding: 22px 16px 20px;
+        width: min(100%, 560px);
+        max-height: calc(100dvh - 20px);
+        padding: 54px 16px 18px;
+        border-radius: 24px;
     }
 
     .final-close {
@@ -991,8 +1012,8 @@ body.journey-open .intro-overlay {
     }
 
     .card {
-        flex-basis: 140px;
-        width: 140px;
+        flex-basis: 148px;
+        width: 148px;
         border-radius: 22px;
     }
 
@@ -1002,12 +1023,12 @@ body.journey-open .intro-overlay {
     }
 
     .card-title {
-        font-size: 1.15rem;
-        max-width: 112px;
+        font-size: 1.12rem;
+        max-width: 114px;
     }
 
     .card-subtitle {
-        max-width: 112px;
+        max-width: 114px;
         font-size: 0.82rem;
     }
 
@@ -1021,6 +1042,112 @@ body.journey-open .intro-overlay {
     .fullscreen video {
         width: 100%;
         max-width: 100%;
-        max-height: 62dvh;
+        max-height: 58dvh;
+    }
+
+    .final h2 {
+        font-size: 1.35rem;
+        line-height: 1.3;
+    }
+
+    .final-copy,
+    .final-signoff {
+        margin-top: 12px;
+        font-size: 0.92rem;
+        line-height: 1.62;
+    }
+
+    .final video {
+        margin-top: 14px;
+        max-height: min(28dvh, 220px);
+    }
+}
+
+@media (max-width: 430px) {
+    .landing {
+        width: min(100% - 18px, 880px);
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .eyebrow,
+    .final-eyebrow,
+    .stage-kicker,
+    .card-label {
+        letter-spacing: 0.18em;
+    }
+
+    .stage-note {
+        font-size: 0.82rem;
+    }
+
+    .completion {
+        bottom: calc(102px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .actions {
+        bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .actions button,
+    .journey-button {
+        width: min(100%, 300px);
+    }
+
+    .cards-container {
+        padding-left: calc(50vw - 74px);
+        padding-right: calc(50vw - 74px);
+    }
+
+    .final-close {
+        top: 12px;
+        right: 12px;
+    }
+}
+
+@media (max-height: 760px) {
+    .journey-section {
+        padding-top: 28px;
+        padding-bottom: 18px;
+    }
+
+    .stage-shell {
+        padding-top: 42px;
+    }
+
+    .stage-floor {
+        height: 52px;
+    }
+
+    .completion {
+        bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+    .actions {
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .message {
+        padding: 16px 16px;
+    }
+
+    .final-shell {
+        padding-top: 50px;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .landing {
+        width: min(100% - 40px, 820px);
+    }
+
+    .cards-container {
+        width: min(100%, 680px);
+    }
+
+    .final-shell {
+        width: min(calc(100vw - 32px), 820px);
     }
 }

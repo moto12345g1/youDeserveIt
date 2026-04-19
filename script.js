@@ -238,11 +238,13 @@ function playCurtainClap() {
 let isDown = false;
 let startX;
 let scrollLeft;
+let hasDragged = false;
 
 container.addEventListener("mousedown", (event) => {
     isDown = true;
     startX = event.pageX - container.offsetLeft;
     scrollLeft = container.scrollLeft;
+    hasDragged = false;
     container.classList.add("grabbing");
 });
 
@@ -254,6 +256,9 @@ container.addEventListener("mouseleave", () => {
 container.addEventListener("mouseup", () => {
     isDown = false;
     container.classList.remove("grabbing");
+    window.setTimeout(() => {
+        hasDragged = false;
+    }, 0);
 });
 
 container.addEventListener("mousemove", (event) => {
@@ -264,29 +269,8 @@ container.addEventListener("mousemove", (event) => {
     event.preventDefault();
     const x = event.pageX - container.offsetLeft;
     const walk = (x - startX) * 1.5;
+    hasDragged = true;
     container.scrollLeft = scrollLeft - walk;
-});
-
-let touchStartX;
-let touchScrollLeft;
-
-container.addEventListener("touchstart", (event) => {
-    touchStartX = event.touches[0].clientX;
-    touchScrollLeft = container.scrollLeft;
-});
-
-container.addEventListener("touchmove", (event) => {
-    if (!touchStartX) {
-        return;
-    }
-
-    const touchX = event.touches[0].clientX;
-    const walk = (touchStartX - touchX) * 1.5;
-    container.scrollLeft = touchScrollLeft + walk;
-});
-
-container.addEventListener("touchend", () => {
-    touchStartX = null;
 });
 
 let lastDistance = 0;
@@ -317,6 +301,16 @@ container.addEventListener("touchmove", (event) => {
 container.addEventListener("touchend", () => {
     lastDistance = 0;
 });
+
+container.addEventListener("click", (event) => {
+    if (!hasDragged) {
+        return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    hasDragged = false;
+}, true);
 
 container.addEventListener("scroll", () => {
     updateCurrentDot();
