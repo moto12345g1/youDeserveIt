@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page-glow page-glow-left"></div>
+<div class="page-glow page-glow-right"></div>
+
+<div class="intro-overlay" id="introOverlay">
+    <div class="curtain curtain-left"></div>
+    <div class="curtain curtain-right"></div>
+    <section class="landing">
+        <p class="eyebrow">A few little reminders for your heart</p>
+        <div class="landing-copy">
+            <h1>
+                This was made for you, because I never want you to forget how deeply loved, gently held, and quietly appreciated you are.
+            </h1>
+            <p class="landing-note">
+                On the easy days, on the heavy days, and on the ordinary in-between ones too, I want there to be something here that reminds you: you matter, your heart matters, and you never have to carry everything alone.
+            </p>
+        </div>
+        <div class="journey-controls">
+            <div class="pull-cord" id="pullCord" aria-hidden="true">
+                <span class="pull-cord-line"></span>
+                <span class="pull-cord-handle"></span>
+            </div>
+            <button class="journey-button" onclick="startJourney()">Begin with a little love</button>
+        </div>
+    </section>
+</div>
+
+<main class="main-content" id="mainContent">
+    <section class="journey-section" id="journeySection">
+        <div class="stage-backdrop"></div>
+        <div class="stage-glow"></div>
+        <div class="stage-arch stage-arch-left"></div>
+        <div class="stage-arch stage-arch-right"></div>
+        <div class="stage-shell">
+            <div class="stage-header">
+                <p class="stage-kicker">Tonight's little reminders</p>
+                <p class="stage-note">Take your time and open each one when you're ready.</p>
+            </div>
+            <section class="cards-container" id="cardsContainer"></section>
+            <div class="dots" id="dots"></div>
+            <div class="stage-floor"></div>
+        </div>
+    </section>
+
+    <div class="completion hidden" id="completion">
+        You made it through every little reminder. There is one more thing waiting for you below.
+    </div>
+
+    <div class="actions hidden" id="actions">
+        <button onclick="playFinal()">Go further</button>
+    </div>
+
+    <div class="final hidden" id="final">
+        <div class="final-shell">
+            <button class="final-close" type="button" aria-label="Close final message" onclick="closeFinal()">Close</button>
+            <p class="final-eyebrow">For the days you need to hear it again</p>
+            <h2>
+                Some people come into life and make it softer.
+                You do that without even trying.
+            </h2>
+            <p class="final-copy">
+                You are the kind of person people remember for how safe, loved, and understood they felt around you.
+                That kind of heart does not fade. It stays. It endures. And if this page ever finds you on a difficult day,
+                let it remind you that you are cared for in a way that is steady, real, and not going anywhere.
+            </p>
+            <video src="assets/H1.mp4" controls playsinline></video>
+            <p class="final-signoff">
+                No matter how loud life gets, I hope you keep this close:
+                you are precious, you are worth showing up for, and you are loved more than you know.
+            </p>
+        </div>
+    </div>
+</main>
+
+<div class="fullscreen hidden" id="fullscreen">
+    <div class="message" id="fsMessage"></div>
+    <video id="fsVideo" muted playsinline controls></video>
+</div>
+
+<audio id="curtainClapAudio" src="assets/clapping.mp3" preload="auto"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
