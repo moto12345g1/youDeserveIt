@@ -11,7 +11,9 @@ const videoAssets = [
     "assets/V2.mp4",
     "assets/V3.mp4",
     "assets/V4.mp4",
-    "assets/V5.mp4"
+    "assets/V5.mp4",
+    "assets/V6.mp4",
+    "assets/V7.mp4",
 ];
 
 const cardPrompts = [
