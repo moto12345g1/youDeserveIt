@@ -3,8 +3,16 @@ const messages = [
     "There is something deeply comforting about you, the kind of presence that makes people breathe easier, feel safer, and believe that tenderness still exists in the world.",
     "You carry light in such a quiet, beautiful way. Not loud, not performative, just real enough to make life feel warmer and hearts feel a little less alone.",
     "The love and steadiness in you make hard days gentler. You have this way of making things feel survivable simply by being exactly who you are.",
-    "I hope you never become smaller to fit the world. The way you love, notice, and stay kind is rare, and it deserves to be protected for a very long time."
+    "I hope you never become smaller to fit the world. The way you love, notice, and stay kind is rare, and it deserves to be protected for a very long time.",
+    "You bring a kind of peace that cannot be faked. In a world that can feel sharp and hurried, your gentleness is a gift that makes everything around you feel a little more human.",
+    "Even on the days when you doubt yourself, there is still so much beauty in the way you keep going, keep caring, and keep choosing softness without losing your strength."
 ];
+
+const ambientTrack = {
+    videoId: "HpphFd_mzXE",
+    playlistId: "RDHpphFd_mzXE",
+    volume: 20
+};
 
 const videoAssets = [
     "assets/V1.mp4",
@@ -41,6 +49,16 @@ const cardPrompts = [
         label: "Always yours",
         title: "Open when you need reassurance",
         subtitle: "This one is here to stay with you a while."
+    },
+    {
+        label: "For your peace",
+        title: "Open when you need calm",
+        subtitle: "Let this bring a little quiet back to you."
+    },
+    {
+        label: "One more thing",
+        title: "Open when you need to believe again",
+        subtitle: "A final reminder of the strength in your heart."
     }
 ];
 
@@ -60,6 +78,12 @@ const introOverlay = document.getElementById("introOverlay");
 const pullCord = document.getElementById("pullCord");
 const journeyButton = document.querySelector(".journey-button");
 const curtainClapAudio = document.getElementById("curtainClapAudio");
+
+let ambientPlayer;
+let ambientPlayerReady = false;
+let ambientPlaybackRequested = false;
+let ambientPlaybackStarted = false;
+let ambientUnlockBound = false;
 
 document.body.classList.add("intro-active");
 
@@ -200,6 +224,8 @@ function startJourney() {
         return;
     }
 
+    startAmbientAudio();
+
     if (journeyButton) {
         journeyButton.classList.add("is-hidden");
     }
@@ -237,6 +263,94 @@ function playCurtainClap() {
 
     curtainClapAudio.currentTime = 0;
     curtainClapAudio.play().catch(() => {});
+}
+
+function startAmbientAudio() {
+    ambientPlaybackRequested = true;
+    bindAmbientUnlock();
+
+    if (!ambientPlayerReady || !ambientPlayer || ambientPlaybackStarted) {
+        return;
+    }
+
+    ambientPlayer.setVolume(ambientTrack.volume);
+    ambientPlayer.unMute();
+    ambientPlayer.playVideo();
+}
+
+function bindAmbientUnlock() {
+    if (ambientUnlockBound) {
+        return;
+    }
+
+    const retryPlayback = () => {
+        if (!ambientPlaybackStarted) {
+            startAmbientAudio();
+        }
+
+        if (ambientPlaybackStarted) {
+            document.removeEventListener("pointerdown", retryPlayback, true);
+            document.removeEventListener("click", retryPlayback, true);
+            ambientUnlockBound = false;
+        }
+    };
+
+    document.addEventListener("pointerdown", retryPlayback, true);
+    document.addEventListener("click", retryPlayback, true);
+    ambientUnlockBound = true;
+}
+
+function onYouTubeIframeAPIReady() {
+    ambientPlayer = new YT.Player("youtubeAmbientPlayer", {
+        height: "1",
+        width: "1",
+        videoId: ambientTrack.videoId,
+        playerVars: {
+            autoplay: 0,
+            controls: 0,
+            disablekb: 1,
+            fs: 0,
+            iv_load_policy: 3,
+            loop: 1,
+            modestbranding: 1,
+            playsinline: 1,
+            rel: 0,
+            playlist: ambientTrack.videoId
+        },
+        events: {
+            onReady: onAmbientPlayerReady,
+            onStateChange: onAmbientPlayerStateChange
+        }
+    });
+}
+
+function onAmbientPlayerReady(event) {
+    ambientPlayerReady = true;
+    event.target.setVolume(ambientTrack.volume);
+    event.target.unMute();
+
+    if (ambientPlaybackRequested) {
+        event.target.playVideo();
+    }
+}
+
+function onAmbientPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.PLAYING) {
+        ambientPlaybackStarted = true;
+        event.target.setVolume(ambientTrack.volume);
+        event.target.unMute();
+        return;
+    }
+
+    if (event.data === YT.PlayerState.ENDED) {
+        event.target.seekTo(0);
+        event.target.playVideo();
+        return;
+    }
+
+    if (ambientPlaybackRequested && event.data === YT.PlayerState.PAUSED) {
+        event.target.playVideo();
+    }
 }
 
 let isDown = false;
