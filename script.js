@@ -75,6 +75,7 @@ const completion = document.getElementById("completion");
 const final = document.getElementById("final");
 const journeySection = document.getElementById("journeySection");
 const introOverlay = document.getElementById("introOverlay");
+const stageProgress = document.getElementById("stageProgress");
 const pullCord = document.getElementById("pullCord");
 const journeyButton = document.querySelector(".journey-button");
 const curtainClapAudio = document.getElementById("curtainClapAudio");
@@ -100,6 +101,7 @@ async function initializeGallery() {
 
     renderCards();
     renderDots();
+    updateProgressIndicator();
     updateCurrentDot();
 }
 
@@ -199,6 +201,7 @@ function openVideo(index) {
             preview.play().catch(() => {});
         }
 
+        updateProgressIndicator();
         checkCompletion();
         updateCurrentDot();
     };
@@ -209,6 +212,17 @@ function checkCompletion() {
         completion.classList.remove("hidden");
         actions.classList.remove("hidden");
     }
+}
+
+function updateProgressIndicator() {
+    if (!stageProgress) {
+        return;
+    }
+
+    const total = opened.length;
+    const completed = opened.filter(Boolean).length;
+
+    stageProgress.textContent = `${completed} of ${total} opened`;
 }
 
 function playFinal() {
